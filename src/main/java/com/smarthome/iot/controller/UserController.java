@@ -7,21 +7,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.smarthome.iot.domain.User;
+import com.smarthome.iot.repository.UserRepository;
 import com.smarthome.iot.service.UserService;
 
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    public UserController(UserService userService) {
-    this.userService = userService;
+
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
     @RequestMapping("/")
     public String getHomePage(Model model){
-        String test = this.userService.handleHello();
-        model.addAttribute("eric", test);
+        model.addAttribute("eric", "test");
         model.addAttribute("hoidanit", "Hello from hoidanit");
         return "hello";
     }
@@ -35,6 +36,7 @@ public class UserController {
     @RequestMapping(value = "/admin/user/create1", method = RequestMethod.POST)
     public String createUserPage(Model model, @ModelAttribute("newUser") User hoidanit) {
         System.out.println("run here" + hoidanit);
+        this.userService.handleSaveUser(hoidanit);
         return "hello";
     }
 
