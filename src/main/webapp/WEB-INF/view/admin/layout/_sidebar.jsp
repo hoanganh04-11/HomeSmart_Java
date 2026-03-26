@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- Admin Sidebar Navigation -->
 <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar min-vh-100">

@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import jakarta.servlet.DispatcherType;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -35,10 +37,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/css/**", "/resources/**").permitAll()
+                // CHO PHÉP JSP FORWARD — không chặn internal forward tới .jsp
+                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                // Public resources
+                .requestMatchers("/", "/login", "/css/**", "/resources/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
+                // Admin only
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                // Client + Admin
                 .requestMatchers("/client/**").hasAnyRole("ADMIN", "CLIENT")
+                // Everything else needs auth
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
